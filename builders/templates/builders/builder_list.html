@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}Builders{% endblock %}
+{% block content %}
+<ul>{% for builder in builders %}<li>{{ builder.name }}</li>{% endfor %}</ul>
+{% endblock %}
