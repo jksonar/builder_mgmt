@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Equipment List{% endblock %}
+{% block header %}All Equipment{% endblock %}
+{% block content %}
+<a class="btn btn-primary mb-3" href="{% url 'create_equipment' %}">Add Equipment</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>Assigned Project</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for eq in equipments %}
+    <tr>
+      <td>{{ eq.name }}</td>
+      <td>{{ eq.equipment_type }}</td>
+      <td>{{ eq.status }}</td>
+      <td>{{ eq.assigned_project }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

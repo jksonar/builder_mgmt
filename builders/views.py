@@ -11,3 +11,7 @@ def create_builder(request):
     else:
         form = BuilderForm()
     return render(request, 'builders/create_builder.html', {'form': form})
+
+def builder_list(request):
+    builders = Builder.objects.all()
+    return render(request, 'builders/builder_list.html', {'builders': builders})

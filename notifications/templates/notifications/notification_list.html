@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}My Notifications{% endblock %}
+{% block header %}Notifications{% endblock %}
+{% block content %}
+<div class="list-group">
+  {% for note in notifications %}
+    <div class="list-group-item {% if not note.is_read %}list-group-item-warning{% endif %}">
+      {% comment %} <p>{{ note.message }}</p> {% endcomment %}
+      <a href="{% url 'mark_notification_read' note.pk %}">{{ note.message }}</a>
+      <small class="text-muted">{{ note.timestamp|date:"Y-m-d H:i" }}</small>
+    </div>
+  {% empty %}
+    <p>No notifications.</p>
+  {% endfor %}
+</div>
+{% endblock %}
