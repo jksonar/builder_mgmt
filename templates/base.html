@@ -43,17 +43,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="/dashboard/"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="/builders/"><i class="fas fa-hard-hat"></i> Builders</a></li>
-                <li class="nav-item"><a class="nav-link" href="/projects/"><i class="fas fa-project-diagram"></i> Projects</a></li>
-                <li class="nav-item"><a class="nav-link" href="/workers/"><i class="fas fa-users"></i> Workers</a></li>
-                <li class="nav-item"><a class="nav-link" href="/tasks/"><i class="fas fa-tasks"></i> Tasks</a></li>
-                <li class="nav-item"><a class="nav-link" href="/materials/"><i class="fas fa-tools"></i> Materials</a></li>
-                <li class="nav-item"><a class="nav-link" href="/payments/"><i class="fas fa-money-bill"></i> Payments</a></li>
-                <li class="nav-item"><a class="nav-link" href="/documents/"><i class="fas fa-file-alt"></i> Documents</a></li>
-                <li class="nav-item"><a class="nav-link" href="/attendance/"><i class="fas fa-calendar-check"></i> Attendance</a></li>
-                <li class="nav-item"><a class="nav-link" href="/issues/"><i class="fas fa-exclamation-triangle"></i> Issues</a></li>
-                <li class="nav-item"><a class="nav-link" href="/notifications/"><i class="fas fa-bell"></i> Notifications</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'builder_list' %}"><i class="fas fa-hard-hat"></i> Builders</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'project_list' %}"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'worker_list' %}"><i class="fas fa-users"></i> Workers</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'task_list' %}"><i class="fas fa-tasks"></i> Tasks</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'material_list' %}"><i class="fas fa-tools"></i> Materials</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'payment_list' %}"><i class="fas fa-money-bill"></i> Payments</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'document_list' %}"><i class="fas fa-file-alt"></i> Documents</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'attendance_list' %}"><i class="fas fa-calendar-check"></i> Attendance</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'issue_list' %}"><i class="fas fa-exclamation-triangle"></i> Issues</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'notification_list' %}"><i class="fas fa-bell"></i> Notifications</a></li>
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
@@ -61,10 +61,13 @@
                     <i class="fas fa-user me-2"></i>
                     <span>{{ user.username }}</span>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="/logout/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link nav-link" style="display:inline; padding:0;"><i class="fas fa-sign-out-alt"></i>Logout</button></li>
+                </form>
                 {% else %}
-                <li class="nav-item"><a class="nav-link" href="/login/"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="/register/"><i class="fas fa-user-plus"></i> Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"><i class="fas fa-user-plus"></i> Register</a></li>
                 {% endif %}
             </ul>
         </div>
