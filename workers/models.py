@@ -6,3 +6,6 @@ class Worker(models.Model):
     role = models.CharField(max_length=100)
     assigned_project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True)
     contact = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name

@@ -10,3 +10,6 @@ class Project(models.Model):
     budget = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.CharField(max_length=50)
     description = models.TextField()
+
+    def __str__(self):
+        return self.name

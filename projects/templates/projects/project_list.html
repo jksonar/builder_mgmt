@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Projects{% endblock %}
 {% block content %}
-<ul>{% for project in projects %}<li>{{ project.name }}</li>{% endfor %}</ul>
+<ul>
+  {% for project in projects %}
+    <li>
+      {{ project.name }}
+      <a href="{% url 'edit_project' project.pk %}" class="btn btn-sm btn-primary">Edit</a>
+      <a href="{% url 'delete_project' project.pk %}" class="btn btn-sm btn-danger">Delete</a>
+    </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'create_project' %}" class="btn btn-success">Add Project</a>
 {% endblock %}
