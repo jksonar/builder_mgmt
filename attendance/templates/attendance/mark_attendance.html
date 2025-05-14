@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% block title %}Mark Attendance{% endblock %}
+{% block title %}{% if is_edit %}Edit{% else %}Mark{% endif %} Attendance{% endblock %}
 {% block content %}
 <div class="container">
-    <h2 class="mb-4">Mark Attendance</h2>
+    <h2 class="mb-4">{% if is_edit %}Edit{% else %}Mark{% endif %} Attendance</h2>
     <div class="card">
         <div class="card-body">
-            <form method="post">
+            <form method="post" id="attendanceForm">
                 {% csrf_token %}
                 {% if form.errors %}
                 <div class="alert alert-danger">
@@ -21,13 +21,59 @@
                     {{ form.date }}
                 </div>
                 <div class="mb-3">
+                    <label for="{{ form.time_in.id_for_label }}" class="form-label">Time In:</label>
+                    {{ form.time_in }}
+                    <small class="form-text text-muted">Working hours: 6:00 AM - 10:00 PM</small>
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.time_out.id_for_label }}" class="form-label">Time Out:</label>
+                    {{ form.time_out }}
+                    <small class="form-text text-muted">Working hours: 6:00 AM - 10:00 PM</small>
+                </div>
+                <div class="mb-3">
                     <label for="{{ form.status.id_for_label }}" class="form-label">Status:</label>
                     {{ form.status }}
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">{% if is_edit %}Update{% else %}Submit{% endif %}</button>
                 <a href="{% url 'attendance_list' %}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+function validateTimes() {
+    const timeIn = document.getElementById('{{ form.time_in.id_for_label }}').value;
+    const timeOut = document.getElementById('{{ form.time_out.id_for_label }}').value;
+    const submitBtn = document.querySelector('button[type="submit"]');
+    
+    if (timeIn && timeOut) {
+        if (timeIn >= timeOut) {
+            alert('Time out must be after time in');
+            submitBtn.disabled = true;
+        } else {
+            submitBtn.disabled = false;
+        }
+    }
+}
+
+// Set current time as default for new entries
+document.addEventListener('DOMContentLoaded', function() {
+    const isEdit = '{{ is_edit }}' === 'True';
+    if (!isEdit) {
+        const now = new Date();
+        const currentTime = now.getHours().toString().padStart(2, '0') + ':' + 
+                          now.getMinutes().toString().padStart(2, '0');
+        const timeInField = document.getElementById('{{ form.time_in.id_for_label }}');
+        if (!timeInField.value) {
+            timeInField.value = currentTime;
+        }
+    }
+    // Add event listeners for time validation
+    document.getElementById('{{ form.time_in.id_for_label }}').addEventListener('change', validateTimes);
+    document.getElementById('{{ form.time_out.id_for_label }}').addEventListener('change', validateTimes);
+    // Initialize validation on page load
+    validateTimes();
+});
+</script>
 {% endblock %}
