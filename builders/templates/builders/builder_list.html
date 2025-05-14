@@ -1,5 +1,47 @@
 {% extends 'base.html' %}
 {% block title %}Builders{% endblock %}
 {% block content %}
-<ul>{% for builder in builders %}<li>{{ builder.name }}</li>{% endfor %}</ul>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Builders Directory</h2>
+        {% if user.user_type == 'builder' and not builders %}
+        <a href="{% url 'create_builder' %}" class="btn btn-primary">Add Builder Profile</a>
+        {% endif %}
+    </div>
+    
+    <div class="row">
+        {% for builder in builders %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ builder.company_name }}</h5>
+                    <p class="card-text">
+                        <strong>Designation:</strong> {{ builder.designation }}<br>
+                        <strong>Experience:</strong> {{ builder.experience_years }} years<br>
+                        <strong>Specialization:</strong> {{ builder.specialization }}<br>
+                        <strong>Contact:</strong> {{ builder.contact_number }}<br>
+                        <strong>Company Details:</strong><br>
+                        License: {{ builder.company.license_number }}<br>
+                        Registration: {{ builder.company.registration_date }}<br>
+                        Email: {{ builder.company.email }}
+                    </p>
+                    {% if user == builder.user %}
+                    <a href="{% url 'create_builder' %}?id={{ builder.id }}" class="btn btn-sm btn-primary">Edit Profile</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                {% if user.user_type == 'builder' %}
+                You haven't created your builder profile yet.
+                {% else %}
+                No builders found.
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

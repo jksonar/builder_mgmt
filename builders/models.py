@@ -13,5 +13,9 @@ class BuilderCompany(models.Model):
 
 class Builder(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    company = models.ForeignKey(BuilderCompany, on_delete=models.CASCADE, related_name='builders')
+    designation = models.CharField(max_length=100)
+    experience_years = models.IntegerField()
+    specialization = models.CharField(max_length=200)
     company_name = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=20)
