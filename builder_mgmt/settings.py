@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'attendance',
     'issues',
     'dashboard',
+    # date picker in template 
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

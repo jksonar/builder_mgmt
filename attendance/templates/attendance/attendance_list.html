@@ -1,5 +1,38 @@
 {% extends 'base.html' %}
 {% block title %}Attendance Records{% endblock %}
 {% block content %}
-<ul>{% for record in records %}<li>{{ record.worker.name }} - {{ record.date }}</li>{% endfor %}</ul>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Attendance Records</h2>
+    <a href="{% url 'mark_attendance' %}" class="btn btn-success">Mark Attendance</a>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.date }}</td>
+            <td>
+                {% if record.status == 'present' %}
+                    <span class="badge bg-success">Present</span>
+                {% elif record.status == 'half_day' %}
+                    <span class="badge bg-warning text-dark">Half Day</span>
+                {% elif record.status == 'absent' %}
+                    <span class="badge bg-danger">Absent</span>
+                {% else %}
+                    {{ record.status }}
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No attendance records found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
