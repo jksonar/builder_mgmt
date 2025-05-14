@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Builder Companies{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Builder Companies</h2>
+        {% if user.user_type == 'builder' %}
+        <a href="{% url 'create_builder_company' %}" class="btn btn-success">Add New Company</a>
+        {% endif %}
+    </div>
+    
+    <div class="row">
+        {% for company in companies %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ company.name }}</h5>
+                    <p class="card-text">
+                        <strong>License Number:</strong> {{ company.license_number }}<br>
+                        <strong>Registration Date:</strong> {{ company.registration_date }}<br>
+                        <strong>Address:</strong> {{ company.address }}<br>
+                        <strong>Phone:</strong> {{ company.phone }}<br>
+                        <strong>Email:</strong> {{ company.email }}<br>
+                        {% if company.website %}
+                        <strong>Website:</strong> <a href="{{ company.website }}" target="_blank">{{ company.website }}</a><br>
+                        {% endif %}
+                    </p>
+                    {% if user == company.contact_person or user.user_type == 'admin' %}
+                    <a href="{% url 'edit_builder_company' company.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                No builder companies found.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
